@@ -1,6 +1,6 @@
 fastapi
-uvicorn
-motor
+uvicorn[standard]
+motor==3.6.0
 beanie
 pydantic
 dnspython
