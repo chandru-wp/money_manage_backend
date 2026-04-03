@@ -1,0 +1,3 @@
+@echo off
+echo Starting FastAPI Server...
+python -m uvicorn main:app --reload --port 5000
