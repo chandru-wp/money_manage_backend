@@ -5,12 +5,14 @@ class TransactionCreate(BaseModel):
     type: str
     amount: float
     category: str
+    username: Optional[str] = None
 
 class TransactionResponse(BaseModel):
     id: str
     type: str
     amount: float
     category: str
+    username: Optional[str] = None
     date: Optional[str] = None
 
 class AnalyticsCreate(BaseModel):

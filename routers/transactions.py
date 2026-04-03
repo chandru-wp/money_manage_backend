@@ -7,22 +7,26 @@ from beanie import PydanticObjectId
 router = APIRouter()
 
 @router.get("/", response_model=List[TransactionResponse])
-async def get_transactions():
-    transactions = await Transaction.find({"$or": [{"is_deleted": False}, {"is_deleted": {"$exists": False}}]}).to_list()
-    # Manual conversion because beanie id is ObjectId but frontend expects string "id"
+async def get_transactions(username: Optional[str] = None):
+    query = {"$or": [{"is_deleted": False}, {"is_deleted": {"$exists": False}}]}
+    if username and username != "admin":
+        query["username"] = username
+    
+    transactions = await Transaction.find(query).sort("-id").to_list()
     return [
         TransactionResponse(
             id=str(t.id),
             type=t.type,
             amount=t.amount,
             category=t.category,
+            username=t.username,
             date=t.id.generation_time.isoformat() if hasattr(t.id, 'generation_time') else None
         ) for t in transactions
     ]
 
 @router.post("/")
 async def add_transaction(data: TransactionCreate):
-    new_t = Transaction(type=data.type, amount=data.amount, category=data.category)
+    new_t = Transaction(type=data.type, amount=data.amount, category=data.category, username=data.username)
     await new_t.insert()
     return {"id": str(new_t.id)}
 

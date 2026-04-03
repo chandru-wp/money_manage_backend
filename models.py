@@ -7,6 +7,7 @@ class Transaction(Document):
     type: str
     amount: float
     category: str
+    username: Optional[str] = None
     is_deleted: bool = False
 
     class Settings:
