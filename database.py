@@ -12,7 +12,7 @@ async def init_db():
     if not MONGO_URI:
         raise ValueError("No database URL provided in .env")
         
-    client = AsyncIOMotorClient(MONGO_URI, tls=True, tlsAllowInvalidCertificates=True)
+    client = AsyncIOMotorClient(MONGO_URI, tls=True, tlsCAFile=certifi.where())
     database = client.money_manager
     
     await init_beanie(database, document_models=[Transaction, AnalyticsEvent, User])
