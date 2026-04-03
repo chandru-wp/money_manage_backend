@@ -1,3 +1,10 @@
-flask
-flask-cors
-flask-sqlalchemy
+fastapi
+uvicorn
+motor
+beanie
+pydantic
+dnspython
+certifi
+python-dotenv
+passlib[bcrypt]
+pyjwt
